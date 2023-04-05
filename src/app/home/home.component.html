@@ -1,1 +1,59 @@
-<p>home works!</p>
+<!-- <div class="card" *ngFor="let new of newsletters">
+    <h5 class="card-header">{{new.title}}</h5>
+    <div class="card-body" id="miDiv">
+        {{new.htmlBody}}
+        <a href="#" class="btn btn-primary">Update</a>
+    </div>
+</div> -->
+
+<!-- home.component.html -->
+<br>
+<div class="container">
+    <div class="input-group mb-3">
+        <span class="input-group-text">Search</span>
+        <input type="text" class="form-control" [(ngModel)]="newsletterId" placeholder="Newsletter Id">
+    </div>
+    <!-- Botón para crear un nuevo newsletter -->
+    <button type="button" (click)="searchNewsletter()" class="btn btn-primary m-2" *ngIf="newsletterId != ''">Search</button>
+
+    <button class="btn btn-primary m-2 float-end"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#modal"
+        (click)="addClick()">Add Newsletter
+    </button>
+
+    <!-- Lista de newsletters -->
+    <div id="container"></div>
+
+    <button class="btn btn-primary m-2"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#modal"
+                (click)="editClick()"
+                *ngIf="this.showButtonUpdate">Edit</button>
+  </div>
+
+  <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">{{modalTitle}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <span class="input-group-text">Title</span>
+            <input type="text" class="form-control" [(ngModel)]="this.newsletter.title">
+            <span class="input-group-text">Body</span>
+            <input type="text" class="form-control" [(ngModel)]="this.newsletter.htmlBody">
+          </div>
+  
+          <button type="button" (click)="createClick()" *ngIf="this.newsletter.newsId == ''" class="btn btn-primary">Create</button>
+  
+          <button type="button" (click)="updateClick()" *ngIf="this.newsletter.newsId != ''" class="btn btn-primary">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -86,4 +86,8 @@ export class NewsletterService {
   delete(id: any): Observable<any> {
     return this.http.delete<any>(NewsletterService.URL + "/" + id, NewsletterService.OPTIONS);
   }
+
+  get(id: any): Observable<any> {
+    return this.http.get<Newsletter>(NewsletterService.URL + "/" + id, NewsletterService.OPTIONS);
+  }
 }

@@ -98,7 +98,7 @@ export class NewsletterComponent implements OnInit{
   }
 } */
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Newsletter } from '../models/newsletter.model';
 import { NewsletterService } from './services/newsletter.service';
 import { catchError } from 'rxjs/operators';
@@ -162,17 +162,14 @@ export class NewsletterComponent implements OnInit{
 
     this.newsletterServices.create(value)
       .pipe(
-        catchError((error) => {
-          console.error(error);
-          alert('An error occurred while creating the newsletter.');
+        catchError((error: HttpErrorResponse) => {
+          alert(error.error.error);
           return of(null);
         })
       )
       .subscribe(res => {
         if (res) {
           alert("The object was created");
-        } else {
-          alert("There is an error");
         }
         this.refreshList();
       });
@@ -187,17 +184,14 @@ export class NewsletterComponent implements OnInit{
 
     this.newsletterServices.update(value)
       .pipe(
-        catchError((error) => {
-          console.error(error);
-          alert('An error occurred while updating the newsletter.');
+        catchError((error: HttpErrorResponse) => {
+          alert(error.error.error);
           return of(null);
         })
       )
       .subscribe(res => {
         if (res) {
           alert("The object was updated");
-        } else {
-          alert("There is an error");
         }
         this.refreshList();
       });
@@ -207,17 +201,14 @@ export class NewsletterComponent implements OnInit{
     if(confirm("Are you sure?")){
       this.newsletterServices.delete(id)
         .pipe(
-          catchError((error) => {
-            console.error(error);
-            alert('An error occurred while deleting the newsletter.');
+          catchError((error: HttpErrorResponse) => {
+            alert(error.error.error);
             return of(null);
           })
         )
         .subscribe(res => {
           if (res) {
             alert("The object was deleted");
-          } else {
-            alert("There is an error");
           }
           this.refreshList();
         });
