@@ -9,21 +9,29 @@ import { NewsletterComponent } from './newsletter/newsletter.component';
 import  { HttpClientModule } from '@angular/common/http';
 import  { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
+import { ToastComponent } from './toast/toast.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NewsletterComponent
+    NewsletterComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [ToastComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

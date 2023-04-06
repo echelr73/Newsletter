@@ -3,7 +3,9 @@ import { Newsletter } from '../models/newsletter.model';
 import { NewsletterService } from '../newsletter/services/newsletter.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastComponent } from '../toast/toast.component';
 
 
 
@@ -22,8 +24,9 @@ export class HomeComponent implements OnInit{
   newsletterHtmlBody = "";
   newsletterEdit : any;
   showButtonUpdate: boolean = false;
+  isUpdate: boolean = true;
   
-  constructor(private newsletterServices: NewsletterService ){
+  constructor(private newsletterServices: NewsletterService, private toastMessage: ToastComponent){
   }
   
   ngOnInit(): void{ 
@@ -35,15 +38,20 @@ export class HomeComponent implements OnInit{
       this.newsletterServices.get(this.newsletterId)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        alert(error.error.error);
+        if (error.status === 400) {
+          this.toastMessage.logError(error.error.error, true);
+        }
         this.newsletterId="";
+        this.showButtonUpdate = false;
         return of(null);
       })
     )
     .subscribe((res: Newsletter) => {
-      this.newsletter = res;
-      this.showButtonUpdate = true;
-      this.crearDiv();
+      if(res != null){
+        this.newsletter = res;
+        this.showButtonUpdate = true;
+        this.crearDiv();
+      }
     });
     } 
   }
@@ -68,7 +76,7 @@ export class HomeComponent implements OnInit{
     const body = document.createElement("div");
     body.id = "card-body";
     body.classList.add("card-body"); // Agrega la clase 'card-body' al div
-    body.textContent = this.newsletter.htmlBody;
+    body.innerHTML = this.newsletter.htmlBody;
 
     // Agrega los elementos creados como hijos de los elementos correspondientes
     div.appendChild(header);
@@ -79,9 +87,9 @@ export class HomeComponent implements OnInit{
 
     addClick(){
       this.modalTitle = "Add Newsletter";
-      this.newsletter.newsId = "";
       this.newsletter.title = "";
       this.newsletter.htmlBody = "";
+      this.isUpdate = false;
     }
 
     editClick(){
@@ -90,6 +98,7 @@ export class HomeComponent implements OnInit{
       this.newsletterId = this.newsletter.newsId;
       this.newsletterTitle = this.newsletter.title;
       this.newsletterHtmlBody = this.newsletter.htmlBody;
+      this.isUpdate = true;
     }
 
     createClick(){
@@ -101,14 +110,16 @@ export class HomeComponent implements OnInit{
       this.newsletterServices.create(value)
         .pipe(
           catchError((error: HttpErrorResponse) => {
-            alert(error.error.error);
+            if (error.status === 400) {
+              this.toastMessage.logError(error.error.error, true);
+            }
             this.deleteElement();
             return of(null);
           })
         )
         .subscribe(res => {
           if (res) {
-            alert("The object was created");
+            this.toastMessage.showSuccessMessage("Succes", "The object was created");
             this.deleteElement();
           }
         });
@@ -124,14 +135,16 @@ export class HomeComponent implements OnInit{
       this.newsletterServices.update(value)
         .pipe(
           catchError((error: HttpErrorResponse) => {
-            alert(error.error.error);
+            if (error.status === 400) {
+              this.toastMessage.logError(error.error.error, true);
+            }
             this.deleteElement();
             return of(null);
           })
         )
         .subscribe(res => {
           if (res) {
-            alert("The object was updated");
+            this.toastMessage.showSuccessMessage("Succes", "The object was updated");
             this.deleteElement();
           }
         });
