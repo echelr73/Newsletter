@@ -1,0 +1,10 @@
+.jumbotron {
+    background-image: url('../assets/background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+h3{
+    font-family: fantasy;
+    text-shadow: #CCC 1px 0 10px;
+}
+  
