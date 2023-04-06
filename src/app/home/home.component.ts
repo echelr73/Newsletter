@@ -5,8 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ToastComponent } from '../toast/toast.component';
-
+import { ToastService } from '../shared/toast.service';
 
 
 @Component({
@@ -26,7 +25,7 @@ export class HomeComponent implements OnInit{
   showButtonUpdate: boolean = false;
   isUpdate: boolean = true;
   
-  constructor(private newsletterServices: NewsletterService, private toastMessage: ToastComponent){
+  constructor(private newsletterServices: NewsletterService, private toastMessage: ToastService){
   }
   
   ngOnInit(): void{ 

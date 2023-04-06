@@ -12,15 +12,13 @@ import  { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
-import { ToastComponent } from './toast/toast.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NewsletterComponent,
-    ToastComponent
+    NewsletterComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +29,7 @@ import { ToastComponent } from './toast/toast.component';
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [ToastComponent],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

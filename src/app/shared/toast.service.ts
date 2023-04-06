@@ -1,16 +1,14 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
-@Component({
-  selector: 'app-toast',
-  templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.css']
+@Injectable({
+  providedIn: 'root'
 })
-export class ToastComponent {
+export class ToastService {
 
   constructor(private toast: ToastrService){}
-
+  
   public logError(msg: any, showToast?: boolean, title?: string, log?: any, isAlways: boolean = false, timeout: number = 5000): void {
     if (title == null) title = 'Error';
     let message = msg;

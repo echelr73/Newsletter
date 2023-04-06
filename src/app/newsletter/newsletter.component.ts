@@ -4,7 +4,7 @@ import { Newsletter } from '../models/newsletter.model';
 import { NewsletterService } from './services/newsletter.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { ToastComponent } from '../toast/toast.component';
+import { ToastService } from '../shared/toast.service';
 
 @Component({
   selector: 'app-newsletter',
@@ -20,7 +20,7 @@ export class NewsletterComponent implements OnInit{
   newsletterTitle = "";
   newsletterHtmlBody = "";
 
-  constructor(private newsletterServices: NewsletterService, private toastMessage: ToastComponent ){}
+  constructor(private newsletterServices: NewsletterService, private toastMessage: ToastService){}
 
   ngOnInit(): void{
     this.refreshList();
