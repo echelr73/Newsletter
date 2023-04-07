@@ -5,12 +5,13 @@
         <input type="text" class="form-control" [(ngModel)]="newsletterId" placeholder="Newsletter Id">
     </div>
     <!-- Botón para crear un nuevo newsletter -->
-    <button type="button" (click)="searchNewsletter()" class="btn btn-primary m-2" *ngIf="newsletterId != ''">Search</button>
+    <button type="button" (click)="searchNewsletter()" class="btn btn-primary m-2" *ngIf="newsletterId != ''" data-toggle="tooltip" title="Search">Search</button>
 
     <button class="btn btn-primary m-2 float-end"
         type="button"
         data-bs-toggle="modal"
         data-bs-target="#modal"
+        data-toggle="tooltip" title="Add"
         (click)="addClick()">Add Newsletter
     </button>
 
@@ -21,6 +22,7 @@
                 type="button"
                 data-bs-toggle="modal"
                 data-bs-target="#modal"
+                data-toggle="tooltip" title="Edit"
                 (click)="editClick()"
                 *ngIf="this.showButtonUpdate">Edit</button>
   </div>
@@ -30,7 +32,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modalLabel">{{modalTitle}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-toggle="tooltip" title="Close"></button>
         </div>
         <div class="modal-body">
           <div class="input-group mb-3">
@@ -38,13 +40,15 @@
             <input type="text" class="form-control" [(ngModel)]="this.newsletter.title">
           </div>
           <div class="input-group mb-3">
-              <span class="input-group-text">Body</span>
+            <span class="input-group-text">Body</span>
             <textarea class="form-control auto-resize" [(ngModel)]="this.newsletter.htmlBody"></textarea>
           </div>
+        </div>
+
+        <div class="modal-footer">          
+          <button type="button" (click)="createClick()" *ngIf="!this.isUpdate" data-toggle="tooltip" title="Create" class="btn btn-primary">Create</button>
   
-          <button type="button" (click)="createClick()" *ngIf="!this.isUpdate" class="btn btn-primary">Create</button>
-  
-          <button type="button" (click)="updateClick()" *ngIf="this.isUpdate" class="btn btn-primary">Update</button>
+          <button type="button" (click)="updateClick()" *ngIf="this.isUpdate" data-toggle="tooltip" title="Update" class="btn btn-primary">Update</button>
         </div>
       </div>
     </div>

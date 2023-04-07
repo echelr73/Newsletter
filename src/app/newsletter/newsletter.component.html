@@ -2,6 +2,7 @@
   type="button"
   data-bs-toggle="modal"
   data-bs-target="#modal"
+  data-toggle="tooltip" title="Add"
   (click)="addClick()">Add Newsletter
 </button>
 
@@ -24,13 +25,23 @@
     </thead>
     <tbody>
         <tr *ngFor="let new of newsletters">
-            <td>{{new.newsId}}</td>
+            <td class="text-break">{{new.newsId}}
+              <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Copy to clipboard" (click)="copyToClipboard(new.newsId)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-minus-fill" viewBox="0 0 16 16">
+                  <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
+                  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1ZM6 9h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1 0-1Z"/>
+                </svg>
+              </button>
+            </td>
             <td>{{new.title}}</td>
             <td>{{new.htmlBody}}</td>
             <td>
                   <button class="btn btn-primary m-2"
                   type="button"
-                  (click)="deleteClick(new.newsId)">
+                  (click) = "setNewsletterIdToDelete(new.newsId)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalDeleted"
+                  data-toggle="tooltip" title="Delete">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                     </svg>    
@@ -45,21 +56,43 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalLabel">{{modalTitle}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-toggle="tooltip" title="Close"></button>
       </div>
       <div class="modal-body">
         <div class="input-group mb-3">
           <span class="input-group-text">Newsletter Title</span>
           <input type="text" class="form-control" [(ngModel)]="newsletterTitle">
-          <span class="input-group-text">Newsletter HtmlBody</span>
-          <input type="text" class="form-control" [(ngModel)]="newsletterHtmlBody">
         </div>
-
-        <button type="button" (click)="createClick()" *ngIf="newsletterId==''" class="btn btn-primary">Create</button>
-
+        <div class="input-group mb-3">
+          <span class="input-group-text">Newsletter HtmlBody</span>
+          <textarea class="form-control auto-resize" [(ngModel)]="newsletterHtmlBody"></textarea>
+        </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" (click)="createClick()" *ngIf="newsletterId==''" class="btn btn-primary">Create</button>
+      </div>      
     </div>
   </div>
+</div>
 
+<div class="modal fade" id="modalDeleted" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">You are about to delete an item</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-toggle="tooltip" title="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <p>Are you sure?</p>
+        </div>
+      </div>
 
+      <div class="modal-footer">
+        <button type="button" (click)="deleteClick(newsletterIdToDelete)" class="btn btn-primary">Yes</button>
+        <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">No</button>
+      </div>
+      
+    </div>
+  </div>
 </div>

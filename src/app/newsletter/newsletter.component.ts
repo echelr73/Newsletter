@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ToastService } from '../shared/toast.service';
 
+
 @Component({
   selector: 'app-newsletter',
   templateUrl: './newsletter.component.html',
@@ -19,11 +20,19 @@ export class NewsletterComponent implements OnInit{
   newsletterId = "";
   newsletterTitle = "";
   newsletterHtmlBody = "";
+  newsletterIdToDelete = "";
 
-  constructor(private newsletterServices: NewsletterService, private toastMessage: ToastService){}
+  constructor(
+    private newsletterServices: NewsletterService,
+    private toastMessage: ToastService
+    ){}
 
   ngOnInit(): void{
     this.refreshList();
+  }
+
+  public setNewsletterIdToDelete(newsletterId: string) {
+    this.newsletterIdToDelete = newsletterId;
   }
 
   refreshList(){
@@ -58,35 +67,42 @@ export class NewsletterComponent implements OnInit{
     this.newsletterServices.create(value)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          alert(error.error.error);
+          if (error.status === 400) {
+            this.toastMessage.logError(error.error.error, true);
+          }
           return of(null);
         })
       )
       .subscribe(res => {
         if (res) {
-          alert("The object was created");
+          this.toastMessage.showSuccessMessage("Succes", "The object was created");
         }
-        this.refreshList();
+        this.ngOnInit();
       });
   }
 
   deleteClick(id: any){
-    if(confirm("Are you sure?")){
-      this.newsletterServices.delete(id)
-        .pipe(
-          catchError((error: HttpErrorResponse) => {
-            if (error.status === 400) {
-              this.toastMessage.logError(error.error.error, true);
-            }
-            return of(null);
-          })
-        )
-        .subscribe(res => {
-          if (res) {
-            this.toastMessage.showSuccessMessage("Succes", "The object was deleted");
-          }
-          this.refreshList();
-        });
-    } 
+    this.newsletterServices.delete(id)
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 400) {
+          this.toastMessage.logError(error.error.error, true);
+        }
+        return of(null);
+      })
+    )
+    .subscribe(res => {
+      if (res) {
+        this.toastMessage.showSuccessMessage("Succes", "The object was deleted");
+      }
+      this.ngOnInit();     
+    }); 
   }
+
+  copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text);
+    this.toastMessage.showSuccessMessage("The Id was copy on the clipboard","");
+  }
+  
+ 
 }
