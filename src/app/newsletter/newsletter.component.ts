@@ -68,7 +68,7 @@ export class NewsletterComponent implements OnInit{
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 400) {
-            this.toastMessage.logError(error.error.error, true);
+            this.toastMessage.logError(error.error, true);
           }
           return of(null);
         })
@@ -86,7 +86,7 @@ export class NewsletterComponent implements OnInit{
     .pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 400) {
-          this.toastMessage.logError(error.error.error, true);
+          this.toastMessage.logError(error.error, true);
         }
         return of(null);
       })

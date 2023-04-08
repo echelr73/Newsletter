@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit{
     .pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 400) {
-          this.toastMessage.logError(error.error.error, true);
+          this.toastMessage.logError(error.error, true);
         }
         this.newsletterId="";
         this.showButtonUpdate = false;
@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit{
         .pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status === 400) {
-              this.toastMessage.logError(error.error.error, true);
+              this.toastMessage.logError(error.error, true);
             }
             this.deleteElement();
             return of(null);
@@ -135,7 +135,7 @@ export class HomeComponent implements OnInit{
         .pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status === 400) {
-              this.toastMessage.logError(error.error.error, true);
+              this.toastMessage.logError(error.error, true);
             }
             this.deleteElement();
             return of(null);
